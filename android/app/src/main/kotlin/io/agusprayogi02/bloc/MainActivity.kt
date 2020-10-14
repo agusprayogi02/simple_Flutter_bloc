@@ -1,0 +1,6 @@
+package io.agusprayogi02.bloc
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
