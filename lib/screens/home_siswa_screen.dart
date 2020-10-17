@@ -1,3 +1,4 @@
+import 'package:fire_bloc/models/models.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,7 +7,8 @@ import 'package:fire_bloc/screens/screens.dart';
 import 'package:fire_bloc/utils/utils.dart';
 
 class HomeSiswaScreen extends StatefulWidget {
-  HomeSiswaScreen({Key key}) : super(key: key);
+  HomeSiswaScreen({Key key, this.data}) : super(key: key);
+  final UserModel data;
 
   @override
   _HomeSiswaScreenState createState() => _HomeSiswaScreenState();
@@ -18,58 +20,140 @@ class _HomeSiswaScreenState extends State<HomeSiswaScreen> {
   int masuk = 17;
   int izin = 3;
   int touchedIndex;
+  UserModel user;
+  double heightM;
+  double widthM;
 
   Map<String, double> data = {
     'masuk': 17,
     'izin': 3,
   };
 
-  Widget __header() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        textDirection: TextDirection.rtl,
+  @override
+  Widget build(BuildContext context) {
+    user = widget.data;
+    heightM = MediaQuery.of(context).size.height;
+    widthM = MediaQuery.of(context).size.width;
+    return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 0,
+      ),
+      body: Column(
         children: <Widget>[
-          Text(
-            "Agus Prayogi",
-            style: titleStyle(18),
-          ),
-          Text(
-            "XII RPL 2",
-            style: TextStyle(color: whiteC),
-            textAlign: TextAlign.left,
-          ),
           Container(
-            margin: EdgeInsets.only(right: 10, left: 10, top: 20),
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            width: double.infinity,
+            decoration: boxHeader,
+            padding: EdgeInsets.all(5),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                BoxKotak(
-                  color: masukC,
-                  title: "Masuk",
-                  state: "$masuk",
-                  widht: 43.0,
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  child: BoxKotak(
-                    color: primaryC,
-                    title: "Total",
-                    state: "$total",
-                    widht: 43.0,
+                __header(),
+                Flexible(
+                  flex: 2,
+                  child: Container(
+                    height: heightM / 8,
+                    width: heightM / 8,
+                    child: PieChart(
+                      PieChartData(
+                        pieTouchData: PieTouchData(touchCallback: (touch) {
+                          setState(() {
+                            if (touch.touchInput is FlLongPressEnd ||
+                                touch.touchInput is FlPanEnd) {
+                              touchedIndex = -1;
+                            } else {
+                              touchedIndex = touch.touchedSectionIndex;
+                            }
+                          });
+                        }),
+                        borderData: FlBorderData(
+                          show: false,
+                        ),
+                        sections: _section(),
+                      ),
+                    ),
                   ),
-                ),
-                BoxKotak(
-                  color: izinC,
-                  title: "Izin",
-                  state: "$izin",
-                  widht: 43.0,
                 ),
               ],
             ),
+          ),
+          _list()
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: FaIcon(FontAwesomeIcons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: FaIcon(FontAwesomeIcons.heart),
+            label: "Love",
+            activeIcon: FaIcon(FontAwesomeIcons.solidHeart),
           )
         ],
+        selectedItemColor: primaryC,
+        unselectedItemColor: blackC,
+      ),
+    );
+  }
+
+  Widget __header() {
+    return Flexible(
+      flex: 4,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          textDirection: TextDirection.rtl,
+          children: <Widget>[
+            Text(
+              user.nama ?? "Agus Prayogi",
+              style: titleStyle(18),
+              overflow: TextOverflow.ellipsis,
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                (user.kelas + " " + user.jurusan) ?? "XII RPL 2",
+                style: TextStyle(color: whiteC),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                margin: EdgeInsets.only(right: 10, left: 10, top: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    BoxKotak(
+                      color: masukC,
+                      title: "Masuk",
+                      state: "$masuk",
+                      widht: 43.0,
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20),
+                      child: BoxKotak(
+                        color: lightC,
+                        title: "Total",
+                        state: "$total",
+                        widht: 43.0,
+                      ),
+                    ),
+                    BoxKotak(
+                      color: izinC,
+                      title: "Izin",
+                      state: "$izin",
+                      widht: 43.0,
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -156,69 +240,6 @@ class _HomeSiswaScreenState extends State<HomeSiswaScreen> {
               ),
           ],
         ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 0,
-      ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            width: double.infinity,
-            decoration: boxHeader,
-            padding: EdgeInsets.all(5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                __header(),
-                Container(
-                  height: MediaQuery.of(context).size.height / 8,
-                  width: MediaQuery.of(context).size.height / 8,
-                  child: PieChart(
-                    PieChartData(
-                      pieTouchData: PieTouchData(touchCallback: (touch) {
-                        setState(() {
-                          if (touch.touchInput is FlLongPressEnd ||
-                              touch.touchInput is FlPanEnd) {
-                            touchedIndex = -1;
-                          } else {
-                            touchedIndex = touch.touchedSectionIndex;
-                          }
-                        });
-                      }),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      sections: _section(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          _list()
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.heart),
-            label: "Love",
-            activeIcon: FaIcon(FontAwesomeIcons.solidHeart),
-          )
-        ],
-        selectedItemColor: primaryC,
-        unselectedItemColor: blackC,
       ),
     );
   }
