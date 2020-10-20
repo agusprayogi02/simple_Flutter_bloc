@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:fire_bloc/models/models.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fire_bloc/components/components.dart';
 import 'package:fire_bloc/screens/screens.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:fire_bloc/utils/utils.dart';
+import 'package:flutter_socket_io/flutter_socket_io.dart';
+import 'package:flutter_socket_io/socket_io_manager.dart';
 
 class HomeSiswaScreen extends StatefulWidget {
   HomeSiswaScreen({Key key, this.data}) : super(key: key);
@@ -23,11 +28,21 @@ class _HomeSiswaScreenState extends State<HomeSiswaScreen> {
   UserModel user;
   double heightM;
   double widthM;
+  String hasil;
+
+  @override
+  void initState() {
+    super.initState();
+    getSocket();
+  }
 
   Map<String, double> data = {
     'masuk': 17,
     'izin': 3,
   };
+
+  getSocket() {
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,72 +54,88 @@ class _HomeSiswaScreenState extends State<HomeSiswaScreen> {
         toolbarHeight: 0,
       ),
       body: Column(
+        children: <Widget>[_header(), _list()],
+      ),
+      floatingActionButton: Align(
+        alignment: Alignment.bottomCenter,
+        child: FloatingActionButton(
+          onPressed: () async {
+            String text = await scanner.scan();
+            if (text.isNotEmpty) {
+              // await Client.
+            }
+            setState(() {
+              hasil = text;
+            });
+          },
+          child: Icon(Icons.qr_code_scanner),
+        ),
+      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: FaIcon(FontAwesomeIcons.home),
+      //       label: "Home",
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: FaIcon(FontAwesomeIcons.heart),
+      //       label: "Love",
+      //       activeIcon: FaIcon(FontAwesomeIcons.solidHeart),
+      //     )
+      //   ],
+      //   selectedItemColor: primaryC,
+      //   unselectedItemColor: blackC,
+      // ),
+    );
+  }
+
+  Container _header() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      width: double.infinity,
+      decoration: boxHeader,
+      padding: EdgeInsets.all(5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            width: double.infinity,
-            decoration: boxHeader,
-            padding: EdgeInsets.all(5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                __header(),
-                Flexible(
-                  flex: 2,
-                  child: Container(
-                    height: heightM / 8,
-                    width: heightM / 8,
-                    child: PieChart(
-                      PieChartData(
-                        pieTouchData: PieTouchData(touchCallback: (touch) {
-                          setState(() {
-                            if (touch.touchInput is FlLongPressEnd ||
-                                touch.touchInput is FlPanEnd) {
-                              touchedIndex = -1;
-                            } else {
-                              touchedIndex = touch.touchedSectionIndex;
-                            }
-                          });
-                        }),
-                        borderData: FlBorderData(
-                          show: false,
-                        ),
-                        sections: _section(),
-                      ),
-                    ),
+          _profile(),
+          Flexible(
+            flex: 2,
+            child: Container(
+              height: heightM / 8,
+              width: heightM / 8,
+              child: PieChart(
+                PieChartData(
+                  pieTouchData: PieTouchData(touchCallback: (touch) {
+                    setState(() {
+                      if (touch.touchInput is FlLongPressEnd ||
+                          touch.touchInput is FlPanEnd) {
+                        touchedIndex = -1;
+                      } else {
+                        touchedIndex = touch.touchedSectionIndex;
+                      }
+                    });
+                  }),
+                  borderData: FlBorderData(
+                    show: false,
                   ),
+                  sections: _section(),
                 ),
-              ],
+              ),
             ),
           ),
-          _list()
         ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.heart),
-            label: "Love",
-            activeIcon: FaIcon(FontAwesomeIcons.solidHeart),
-          )
-        ],
-        selectedItemColor: primaryC,
-        unselectedItemColor: blackC,
       ),
     );
   }
 
-  Widget __header() {
+  Widget _profile() {
     return Flexible(
       flex: 4,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           textDirection: TextDirection.rtl,
           children: <Widget>[
             Text(
@@ -112,13 +143,10 @@ class _HomeSiswaScreenState extends State<HomeSiswaScreen> {
               style: titleStyle(18),
               overflow: TextOverflow.ellipsis,
             ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                (user.kelas + " " + user.jurusan) ?? "XII RPL 2",
-                style: TextStyle(color: whiteC),
-                textAlign: TextAlign.left,
-              ),
+            Text(
+              (user.kelas + " " + user.jurusan) ?? "XII RPL 2",
+              style: TextStyle(color: whiteC),
+              textAlign: TextAlign.left,
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -127,11 +155,16 @@ class _HomeSiswaScreenState extends State<HomeSiswaScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    BoxKotak(
-                      color: masukC,
-                      title: "Masuk",
-                      state: "$masuk",
-                      widht: 43.0,
+                    GestureDetector(
+                      onTap: () {
+                        getSocket();
+                      },
+                      child: BoxKotak(
+                        color: masukC,
+                        title: "Masuk",
+                        state: "$masuk",
+                        widht: 43.0,
+                      ),
                     ),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 20),
@@ -200,10 +233,7 @@ class _HomeSiswaScreenState extends State<HomeSiswaScreen> {
           borderRadius: BorderRadius.circular(5),
           color: lightC,
         ),
-        margin: EdgeInsets.symmetric(
-          vertical: 10,
-          horizontal: 20,
-        ),
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: ListView(
           scrollDirection: Axis.vertical,
           children: [

@@ -22,17 +22,17 @@ class _KonfirmasiScreenState extends State<KonfirmasiScreen> {
   String email;
   String err;
   DateFormat _dateFormat = DateFormat.yMMMd();
-  String password = "";
+  String password;
   SharedPreferences _session;
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
     password = new DateTime.now().toString().split(" ")[0];
-    _session = await SharedPreferences.getInstance();
   }
 
   login() async {
+    _session = await SharedPreferences.getInstance();
     if (email == null) {
       err = "Email Tidak Boleh Kosong";
       showDialog(
@@ -64,10 +64,14 @@ class _KonfirmasiScreenState extends State<KonfirmasiScreen> {
       if (res.statusCode == 200) {
         UserModel user = UserModel.fromJson(jsonDecode(res.body)['value']);
         _session.setString("userId", user.id);
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return HomeSiswaScreen(data: user);
-        }));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return HomeSiswaScreen(data: user);
+            },
+          ),
+        );
       } else {
         err = "NSIN atau Tanggal Tidak valid!";
         showDialog(
@@ -86,15 +90,15 @@ class _KonfirmasiScreenState extends State<KonfirmasiScreen> {
   }
 
   Future<http.Response> postLogin() {
-    // Uri uri = Uri.http();
+    Uri uri = Uri.http(apiUrl, '/user/login');
     return http.post(
-      apiUrl + '/user/login',
+      uri,
       headers: {
         'content-type': "application/json",
       },
       body: jsonEncode(<String, String>{
-        'user': email,
-        'pass': password,
+        'user': "0016709181",
+        'pass': "2001-11-11",
       }),
     );
   }

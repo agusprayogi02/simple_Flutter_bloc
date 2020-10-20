@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-final apiUrl = "https://localhost:4000";
+final apiUrl = "localhost:4000";
 final primaryC = Color(0xff1E88E5);
 final lightC = Color(0xff6ab7ff);
 final dartC = Color(0xff005cb2);
