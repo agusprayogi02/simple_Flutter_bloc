@@ -1,11 +1,12 @@
-import 'dart:io';
-
+import 'dart:async';
+import 'dart:convert';
 import 'package:fire_bloc/models/models.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fire_bloc/components/components.dart';
 import 'package:fire_bloc/screens/screens.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:fire_bloc/utils/utils.dart';
 import 'package:flutter_socket_io/flutter_socket_io.dart';
@@ -29,11 +30,19 @@ class _HomeSiswaScreenState extends State<HomeSiswaScreen> {
   double heightM;
   double widthM;
   String hasil;
+  Position _position;
+  SocketIO socketIO;
+  String now;
 
   @override
   void initState() {
     super.initState();
-    getSocket();
+    GeolocatorPlatform.instance.getPositionStream().listen((event) {
+      if (event != null) {
+        _position = event;
+      }
+    });
+    this.initSocket();
   }
 
   Map<String, double> data = {
@@ -41,7 +50,11 @@ class _HomeSiswaScreenState extends State<HomeSiswaScreen> {
     'izin': 3,
   };
 
-  getSocket() {
+  void initSocket() {
+    now = new DateTime.now().toString().split(" ")[1];
+    socketIO = SocketIOManager().createSocketIO(apiUrl, '/');
+    socketIO.init();
+    socketIO.connect();
   }
 
   @override
@@ -62,7 +75,19 @@ class _HomeSiswaScreenState extends State<HomeSiswaScreen> {
           onPressed: () async {
             String text = await scanner.scan();
             if (text.isNotEmpty) {
-              // await Client.
+              var mess = {
+                'nisn': user.nisn,
+                'kelas': text,
+                'lokasi': _position.longitude.toString() +
+                    ',' +
+                    _position.latitude.toString(),
+                'ket': 'Masuk',
+              };
+              print("berhasil");
+              socketIO.sendMessage('absen', jsonEncode(mess));
+              socketIO.subscribe("berubah", (var res) {
+                print("data: " + res.berubah);
+              });
             }
             setState(() {
               hasil = text;
@@ -156,9 +181,7 @@ class _HomeSiswaScreenState extends State<HomeSiswaScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     GestureDetector(
-                      onTap: () {
-                        getSocket();
-                      },
+                      onTap: () {},
                       child: BoxKotak(
                         color: masukC,
                         title: "Masuk",

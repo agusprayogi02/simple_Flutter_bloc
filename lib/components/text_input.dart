@@ -8,6 +8,7 @@ class TextInput extends StatelessWidget {
   final Function() onTap;
   final Icon iconRight;
   final bool enable;
+  final TextInputType type;
   const TextInput({
     Key key,
     @required this.label,
@@ -16,6 +17,7 @@ class TextInput extends StatelessWidget {
     this.onTap,
     this.iconRight,
     this.enable,
+    this.type,
   }) : super(key: key);
 
   @override
@@ -26,6 +28,7 @@ class TextInput extends StatelessWidget {
       margin: EdgeInsets.only(top: 12),
       child: TextFormField(
         onChanged: (value) => {onChange(value)},
+        keyboardType: type ?? TextInputType.text,
         decoration: InputDecoration(
           border: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.pink, width: 1)),

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fire_bloc/models/models.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:fire_bloc/components/components.dart';
 import 'package:fire_bloc/screens/screens.dart';
@@ -24,14 +25,25 @@ class _KonfirmasiScreenState extends State<KonfirmasiScreen> {
   DateFormat _dateFormat = DateFormat.yMMMd();
   String password;
   SharedPreferences _session;
+  LocationPermission permission;
 
   @override
   void initState() {
     super.initState();
     password = new DateTime.now().toString().split(" ")[0];
+    this._getPerMission();
   }
 
-  login() async {
+  _getPerMission() async {
+    permission = await Geolocator.checkPermission();
+    print(permission);
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      await Geolocator.requestPermission();
+    }
+  }
+
+  void login() async {
     _session = await SharedPreferences.getInstance();
     if (email == null) {
       err = "Email Tidak Boleh Kosong";
@@ -63,7 +75,8 @@ class _KonfirmasiScreenState extends State<KonfirmasiScreen> {
       http.Response res = await postLogin();
       if (res.statusCode == 200) {
         UserModel user = UserModel.fromJson(jsonDecode(res.body)['value']);
-        _session.setString("userId", user.id);
+        _session.setString("session", user.id);
+        print("log: " + user.id);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -90,15 +103,15 @@ class _KonfirmasiScreenState extends State<KonfirmasiScreen> {
   }
 
   Future<http.Response> postLogin() {
-    Uri uri = Uri.http(apiUrl, '/user/login');
+    // Uri uri = Uri.http(apiUrl, '/user/login');
     return http.post(
-      uri,
+      apiUrl + 'user/login',
       headers: {
         'content-type': "application/json",
       },
       body: jsonEncode(<String, String>{
-        'user': "0016709181",
-        'pass': "2001-11-11",
+        'user': email,
+        'pass': password,
       }),
     );
   }
@@ -145,7 +158,7 @@ class _KonfirmasiScreenState extends State<KonfirmasiScreen> {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(top: 20),
-                child: Text("Konfirmasi Data", style: txtStyle),
+                child: Text("Login", style: txtStyle),
               ),
               Container(
                   decoration: kBoxDecoration,
@@ -157,6 +170,7 @@ class _KonfirmasiScreenState extends State<KonfirmasiScreen> {
                       children: <Widget>[
                         TextInput(
                           label: "NISN",
+                          type: TextInputType.number,
                           onChange: (value) => {
                             setState(() => {email = value})
                           },
