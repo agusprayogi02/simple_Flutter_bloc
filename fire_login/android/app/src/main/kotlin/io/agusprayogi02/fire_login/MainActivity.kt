@@ -1,4 +1,4 @@
-package io.agusprayogi02.login.fire_login
+package io.agusprayogi02.fire_login
 
 import io.flutter.embedding.android.FlutterActivity
 
