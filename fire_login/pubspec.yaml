@@ -24,10 +24,10 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.1
-  flutter_redux: ^0.7.0
+  firebase_analytics: ^6.3.0
+  firebase_auth: ^0.18.4+1
+  firebase_core: ^0.5.3
   get: ^3.22.2
-  meta: ^1.2.4
-  redux: ^4.0.0+3
 
 dev_dependencies:
   flutter_test:
