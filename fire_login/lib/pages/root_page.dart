@@ -7,6 +7,6 @@ import 'package:get/state_manager.dart';
 class RootPage extends GetWidget<AuthController> {
   @override
   Widget build(BuildContext context) {
-    return Obx(() => controller.user != null ? HomePage() : SignInPage());
+    return Obx(() => controller.user != null ? HomePage() : SigninPage());
   }
 }

@@ -4,24 +4,30 @@ import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 
 // ignore: must_be_immutable
-class SignInPage extends GetWidget<AuthController> {
-  double height, width;
+class SigninPage extends GetWidget<AuthController> {
+  double w = Get.context.width, h = Get.context.height;
   @override
   Widget build(BuildContext context) {
-    height = Get.context.height;
-    width = Get.context.width;
     return Scaffold(
       appBar: AppBar(
         title: Text("SignIn"),
       ),
-      body: Stack(
-        children: [
-          Container(
-            width: width * 0.9,
-            height: height * 0.5,
-            color: Colors.red,
-          )
-        ],
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Center(
+              child: Container(
+                margin: EdgeInsets.only(top: h * 0.2),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.red,
+                ),
+                height: h * 0.5,
+                width: w * 0.9,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
