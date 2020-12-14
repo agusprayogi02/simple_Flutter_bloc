@@ -1,3 +1,4 @@
+import 'package:fire_login/controllers/bindings/auth_binding.dart';
 import 'package:fire_login/services/app_pages.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       navigatorObservers: <NavigatorObserver>[observer],
+      initialBinding: AuthBinding(),
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
