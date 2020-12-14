@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 
-class SignIn extends GetWidget<AuthController> {
+// ignore: must_be_immutable
+class SignInPage extends GetWidget<AuthController> {
   double height, width;
   @override
   Widget build(BuildContext context) {

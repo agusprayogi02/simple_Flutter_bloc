@@ -1,12 +1,13 @@
-import 'package:fire_login/views/home.dart';
+import 'package:fire_login/pages/home_page.dart';
+import 'package:fire_login/pages/root_page.dart';
+import 'package:fire_login/pages/signin_page.dart';
 import 'package:get/get.dart';
 part 'app_routes.dart';
 
 abstract class AppPages {
   static final pages = [
-    GetPage(
-      name: Routes.INITIAL,
-      page: () => HomePage(),
-    )
+    GetPage(name: Routes.INITIAL, page: () => HomePage()),
+    GetPage(name: Routes.HOME, page: () => SignInPage()),
+    GetPage(name: Routes.LOGIN, page: () => RootPage()),
   ];
 }

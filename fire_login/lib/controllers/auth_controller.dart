@@ -46,6 +46,13 @@ class AuthController extends GetxController {
   void logOut() async {
     try {
       await _auth.signOut();
-    } catch (e) {}
+      Get.back();
+    } catch (e) {
+      Get.snackbar(
+        "Error logout Account",
+        e.message,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 }
