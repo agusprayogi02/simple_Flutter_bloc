@@ -13,7 +13,7 @@ class SigninPage extends GetWidget<AuthController> {
 
   Widget _btnLogin() {
     return Container(
-      margin: EdgeInsets.only(top: 40),
+      margin: EdgeInsets.only(top: 20),
       width: double.infinity,
       height: 45,
       child: RaisedButton(
@@ -21,7 +21,27 @@ class SigninPage extends GetWidget<AuthController> {
           controller.signIn(_emailController.text, _passController.text);
         },
         child: Text(
-          "Submit",
+          "Sign In",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        ),
+        color: primaryColor,
+        textColor: white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+      ),
+    );
+  }
+
+  Widget _btnRegister() {
+    return Container(
+      margin: EdgeInsets.only(top: 15),
+      width: double.infinity,
+      height: 45,
+      child: RaisedButton(
+        onPressed: () {
+          controller.signUp(_emailController.text, _passController.text);
+        },
+        child: Text(
+          "Sign Up",
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
         color: primaryColor,
@@ -81,6 +101,7 @@ class SigninPage extends GetWidget<AuthController> {
                               iconRight: Icon(Icons.visibility),
                             ),
                             _btnLogin(),
+                            _btnRegister()
                           ],
                         ),
                       )),

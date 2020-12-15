@@ -10,13 +10,25 @@ class HomePage extends GetWidget<AuthController> {
         title: Text("hai"),
       ),
       body: Container(
-        alignment: Alignment.center,
-        child: MaterialButton(
-          color: Colors.blueAccent,
-          textColor: Colors.white,
-          splashColor: Colors.grey,
-          child: Text("Logout"),
-          onPressed: () => controller.logOut(),
+        width: Get.width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              controller.user.email,
+              style: TextStyle(fontSize: 20),
+            ),
+            Container(
+              child: MaterialButton(
+                color: Colors.blueAccent,
+                textColor: Colors.white,
+                splashColor: Colors.grey,
+                child: Text("Logout"),
+                onPressed: () => controller.logOut(),
+              ),
+            ),
+          ],
         ),
       ),
     );
