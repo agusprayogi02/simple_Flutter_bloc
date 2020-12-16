@@ -17,6 +17,8 @@ class SigninPage extends GetWidget<AuthController> {
       width: double.infinity,
       height: 45,
       child: RaisedButton(
+        focusColor: Colors.blueGrey,
+        splashColor: Colors.blueGrey,
         onPressed: () {
           controller.signIn(_emailController.text, _passController.text);
         },
@@ -37,6 +39,8 @@ class SigninPage extends GetWidget<AuthController> {
       width: double.infinity,
       height: 45,
       child: RaisedButton(
+        focusColor: Colors.blueGrey,
+        splashColor: Colors.blueGrey,
         onPressed: () {
           controller.signUp(_emailController.text, _passController.text);
         },
@@ -44,7 +48,7 @@ class SigninPage extends GetWidget<AuthController> {
           "Sign Up",
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
-        color: primaryColor,
+        color: masukC,
         textColor: white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
       ),

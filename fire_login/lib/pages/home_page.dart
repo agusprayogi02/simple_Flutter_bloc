@@ -7,28 +7,28 @@ class HomePage extends GetWidget<AuthController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("hai"),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("Home"),
+            MaterialButton(
+              focusColor: Colors.blueGrey,
+              splashColor: Colors.blueGrey,
+              child: Text(
+                "Logout",
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () => controller.logOut(),
+            )
+          ],
+        ),
       ),
       body: Container(
         width: Get.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              controller.user.email,
-              style: TextStyle(fontSize: 20),
-            ),
-            Container(
-              child: MaterialButton(
-                color: Colors.blueAccent,
-                textColor: Colors.white,
-                splashColor: Colors.grey,
-                child: Text("Logout"),
-                onPressed: () => controller.logOut(),
-              ),
-            ),
-          ],
+          children: [],
         ),
       ),
     );
