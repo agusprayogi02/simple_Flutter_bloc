@@ -1,3 +1,6 @@
+import 'package:fire_login/controllers/user_controller.dart';
+import 'package:fire_login/models/user_model.dart';
+import 'package:fire_login/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -19,6 +22,16 @@ class AuthController extends GetxController {
         email: email.trim(),
         password: pass,
       );
+      UserModel user = UserModel(
+        id: _authResult.user.uid,
+        name: name,
+        email: _authResult.user.email,
+      );
+      if (await Database().createNewUser(user)) {
+        Get.find<UserController>().user = user;
+        Get.back();
+      }
+      // Get.back();
     } catch (e) {
       Get.snackbar(
         "Error creating Account",
@@ -34,6 +47,8 @@ class AuthController extends GetxController {
         email: email.trim(),
         password: pass,
       );
+      Get.find<UserController>().user =
+          await Database().getUser(_authResult.user.uid);
     } catch (e) {
       Get.snackbar(
         "Error Login Account",

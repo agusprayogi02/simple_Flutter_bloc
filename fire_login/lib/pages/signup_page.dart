@@ -1,5 +1,7 @@
 import 'package:fire_login/components/text_input.dart';
 import 'package:fire_login/controllers/auth_controller.dart';
+import 'package:fire_login/models/user_model.dart';
+import 'package:fire_login/services/database.dart';
 import 'package:fire_login/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -62,15 +64,22 @@ class SignUpPage extends GetView<AuthController> {
                             iconRight: Icon(Icons.visibility),
                           ),
                           Container(
+                            margin: EdgeInsets.only(top: 30),
+                            height: 45,
+                            width: double.infinity,
                             child: RaisedButton(
                               focusColor: Colors.blueGrey,
                               splashColor: Colors.blueGrey,
                               onPressed: () {
-                                controller.signUp(
-                                    _name.text, _email.text, _pass.text);
+                                var user = UserModel(
+                                  name: _name.text,
+                                  email: _email.text,
+                                  id: _pass.text,
+                                );
+                                Database().createNewUser(user);
                               },
                               child: Text(
-                                "Sign In",
+                                "Sign Up",
                                 style: TextStyle(
                                     fontSize: 25, fontWeight: FontWeight.bold),
                               ),

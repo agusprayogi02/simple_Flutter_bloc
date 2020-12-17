@@ -101,7 +101,7 @@ class SigninPage extends GetWidget<AuthController> {
                             TextInput(
                               label: "Email",
                               controller: _emailController,
-                              icon: Icons.person,
+                              icon: Icons.email,
                             ),
                             TextInput(
                               label: "Password",
