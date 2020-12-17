@@ -13,7 +13,7 @@ class AuthController extends GetxController {
     super.onInit();
   }
 
-  void signUp(String email, String pass) async {
+  void signUp(String name, String email, String pass) async {
     try {
       UserCredential _authResult = await _auth.createUserWithEmailAndPassword(
         email: email.trim(),

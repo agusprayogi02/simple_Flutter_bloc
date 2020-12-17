@@ -1,5 +1,6 @@
 import 'package:fire_login/components/text_input.dart';
 import 'package:fire_login/controllers/auth_controller.dart';
+import 'package:fire_login/services/app_pages.dart';
 import 'package:fire_login/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,46 +12,51 @@ class SigninPage extends GetWidget<AuthController> {
   TextEditingController _emailController = TextEditingController(),
       _passController = TextEditingController();
 
-  Widget _btnLogin() {
+  Widget _btn() {
     return Container(
       margin: EdgeInsets.only(top: 20),
       width: double.infinity,
       height: 45,
-      child: RaisedButton(
-        focusColor: Colors.blueGrey,
-        splashColor: Colors.blueGrey,
-        onPressed: () {
-          controller.signIn(_emailController.text, _passController.text);
-        },
-        child: Text(
-          "Sign In",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-        ),
-        color: primaryColor,
-        textColor: white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
-      ),
-    );
-  }
-
-  Widget _btnRegister() {
-    return Container(
-      margin: EdgeInsets.only(top: 15),
-      width: double.infinity,
-      height: 45,
-      child: RaisedButton(
-        focusColor: Colors.blueGrey,
-        splashColor: Colors.blueGrey,
-        onPressed: () {
-          controller.signUp(_emailController.text, _passController.text);
-        },
-        child: Text(
-          "Sign Up",
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-        ),
-        color: masukC,
-        textColor: white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          SizedBox(
+            height: 45,
+            child: RaisedButton(
+              focusColor: Colors.blueGrey,
+              splashColor: Colors.blueGrey,
+              onPressed: () {
+                controller.signIn(_emailController.text, _passController.text);
+              },
+              child: Text(
+                "Sign In",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+              color: primaryColor,
+              textColor: white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(3)),
+            ),
+          ),
+          SizedBox(
+            height: 45,
+            child: RaisedButton(
+              focusColor: Colors.blueGrey,
+              splashColor: Colors.blueGrey,
+              onPressed: () {
+                Get.toNamed(Routes.SIGNUP);
+              },
+              child: Text(
+                "Sign Up",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+              color: masukC,
+              textColor: white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(3)),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -104,8 +110,7 @@ class SigninPage extends GetWidget<AuthController> {
                               isPass: true,
                               iconRight: Icon(Icons.visibility),
                             ),
-                            _btnLogin(),
-                            _btnRegister()
+                            _btn(),
                           ],
                         ),
                       )),
