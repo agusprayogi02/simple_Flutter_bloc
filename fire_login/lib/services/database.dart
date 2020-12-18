@@ -6,7 +6,11 @@ class Database {
 
   Future<bool> createNewUser(UserModel user) async {
     try {
-      await _firestore.collection("users").doc(user.uid).set(user.toJson());
+      await _firestore.collection("users").doc(user.uid).set({
+        "uid": user.uid,
+        "name": user.name,
+        "email": user.email,
+      });
       return true;
     } catch (e) {
       print(e);

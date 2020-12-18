@@ -32,9 +32,8 @@ final boxHeader = BoxDecoration(
 
 final titleStyle = (double size) {
   return TextStyle(
-    color: white,
+    color: blackColor,
     fontSize: size,
-    fontFamily: 'Poppins',
     fontWeight: FontWeight.w700,
   );
 };

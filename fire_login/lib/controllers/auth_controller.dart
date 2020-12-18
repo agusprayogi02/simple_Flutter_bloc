@@ -28,7 +28,7 @@ class AuthController extends GetxController {
         email: _authResult.user.email,
       );
       if (await Database().createNewUser(user)) {
-        Get.find<UserController>().user = user;
+        Get.put<UserController>(UserController()).user = user;
         Get.back();
       }
       // Get.back();

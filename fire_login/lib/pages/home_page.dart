@@ -1,8 +1,12 @@
+import 'dart:ui';
+
 import 'package:fire_login/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+// ignore: must_be_immutable
 class HomePage extends GetWidget<AuthController> {
+  double h = Get.height, w = Get.width;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,11 +28,22 @@ class HomePage extends GetWidget<AuthController> {
         ),
       ),
       body: Container(
-        width: Get.width,
+        width: w,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [],
+          children: [
+            Container(
+              width: w*0.9,
+              height: h*0.8,
+              child: ListView.builder(
+                itemCount: ,
+                itemBuilder: (context, index) {
+                  
+                },
+              ),
+            )
+          ],
         ),
       ),
     );

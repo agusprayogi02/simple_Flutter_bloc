@@ -6,14 +6,15 @@ import 'package:fire_login/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+// ignore: must_be_immutable
 class SignUpPage extends GetView<AuthController> {
+  TextEditingController _email = TextEditingController(),
+      _pass = TextEditingController(),
+      _name = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double h = Get.size.height, w = Get.size.width;
-    TextEditingController _email = TextEditingController(),
-        _pass = TextEditingController(),
-        _name = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(title: Text('SignUpPage')),
       body: SingleChildScrollView(
@@ -71,12 +72,11 @@ class SignUpPage extends GetView<AuthController> {
                               focusColor: Colors.blueGrey,
                               splashColor: Colors.blueGrey,
                               onPressed: () {
-                                var user = UserModel(
-                                  name: _name.text,
-                                  email: _email.text,
-                                  id: _pass.text,
+                                controller.signUp(
+                                  _name.text,
+                                  _email.text,
+                                  _pass.text,
                                 );
-                                Database().createNewUser(user);
                               },
                               child: Text(
                                 "Sign Up",
