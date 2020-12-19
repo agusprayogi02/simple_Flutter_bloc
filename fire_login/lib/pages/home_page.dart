@@ -1,6 +1,8 @@
 import 'dart:ui';
 
+import 'package:fire_login/components/text_box.dart';
 import 'package:fire_login/controllers/auth_controller.dart';
+import 'package:fire_login/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -34,15 +36,29 @@ class HomePage extends GetWidget<AuthController> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              width: w*0.9,
-              height: h*0.8,
-              child: ListView.builder(
-                itemCount: ,
-                itemBuilder: (context, index) {
-                  
-                },
+              width: w * 0.9,
+              height: h * 0.8,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 1,
+                  color: Colors.red,
+                ),
               ),
-            )
+              child: GetBuilder<UserController>(
+                init: UserController(),
+                builder: (val) => ListView.builder(
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return TextBox(
+                      title: null,
+                      subTitle: null,
+                      enable: null,
+                      onChanged: null,
+                    );
+                  },
+                ),
+              ),
+            ),
           ],
         ),
       ),

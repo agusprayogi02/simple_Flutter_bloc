@@ -7,7 +7,7 @@ class TextBox extends StatelessWidget {
   final Function(bool val) onChanged;
 
   const TextBox({
-    @required Key key,
+    Key key,
     @required this.title,
     @required this.subTitle,
     @required this.enable,
