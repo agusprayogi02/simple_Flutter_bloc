@@ -50,10 +50,10 @@ class HomePage extends GetWidget<AuthController> {
                   itemCount: 5,
                   itemBuilder: (context, index) {
                     return TextBox(
-                      title: null,
-                      subTitle: null,
-                      enable: null,
-                      onChanged: null,
+                      title: "aku",
+                      subTitle: "kamu",
+                      enable: false,
+                      onChanged: (v) {},
                     );
                   },
                 ),

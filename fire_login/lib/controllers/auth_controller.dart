@@ -23,7 +23,7 @@ class AuthController extends GetxController {
         password: pass,
       );
       UserModel user = UserModel(
-        id: _authResult.user.uid,
+        uid: _authResult.user.uid,
         name: name,
         email: _authResult.user.email,
       );

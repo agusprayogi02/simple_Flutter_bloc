@@ -5,6 +5,7 @@ class Database {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<bool> createNewUser(UserModel user) async {
+    print(user);
     try {
       await _firestore.collection("users").doc(user.uid).set({
         "uid": user.uid,

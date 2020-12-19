@@ -5,7 +5,7 @@ class UserModel {
   String name;
   String email;
 
-  UserModel({id = "", name = "", email = ""});
+  UserModel({this.uid, this.name, this.email});
 
   UserModel.documentSnapshot(DocumentSnapshot doc) {
     this.uid = doc.data()['uid'];
