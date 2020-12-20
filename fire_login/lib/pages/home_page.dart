@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:fire_login/components/text_box.dart';
 import 'package:fire_login/controllers/auth_controller.dart';
-import 'package:fire_login/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -38,25 +37,23 @@ class HomePage extends GetWidget<AuthController> {
             Container(
               width: w * 0.9,
               height: h * 0.8,
+              padding: EdgeInsets.all(3),
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 1,
                   color: Colors.red,
                 ),
               ),
-              child: GetBuilder<UserController>(
-                init: UserController(),
-                builder: (val) => ListView.builder(
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return TextBox(
-                      title: "aku",
-                      subTitle: "kamu",
-                      enable: false,
-                      onChanged: (v) {},
-                    );
-                  },
-                ),
+              child: ListView.builder(
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return TextBox(
+                    enable: false,
+                    onChanged: (val) {},
+                    subTitle: "Hai",
+                    title: "Gay",
+                  );
+                },
               ),
             ),
           ],

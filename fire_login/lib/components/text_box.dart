@@ -17,9 +17,9 @@ class TextBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      height: 30,
-      margin: EdgeInsets.symmetric(vertical: 2),
+      height: 50,
+      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+      margin: EdgeInsets.only(bottom: 3.0),
       decoration: BoxDecoration(
         border: Border.all(width: 1, color: Colors.black),
         borderRadius: BorderRadius.circular(3),
@@ -29,8 +29,6 @@ class TextBox extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: double.infinity,
-            height: double.infinity,
             child: Column(
               children: [
                 Text(

@@ -1,7 +1,5 @@
 import 'package:fire_login/components/text_input.dart';
 import 'package:fire_login/controllers/auth_controller.dart';
-import 'package:fire_login/models/user_model.dart';
-import 'package:fire_login/services/database.dart';
 import 'package:fire_login/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

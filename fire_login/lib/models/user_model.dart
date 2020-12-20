@@ -1,16 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:equatable/equatable.dart';
 
-class UserModel {
-  String uid;
-  String name;
-  String email;
+class UserModel extends Equatable {
+  final String uid;
+  final String name;
+  final String email;
 
   UserModel({this.uid, this.name, this.email});
 
-  UserModel.documentSnapshot(DocumentSnapshot doc) {
-    this.uid = doc.data()['uid'];
-    this.name = doc.data()['name'];
-    this.email = doc.data()['email'];
+  factory UserModel.documentSnapshot(DocumentSnapshot doc) {
+    return UserModel(
+      uid: doc.id,
+      name: doc['name'],
+      email: doc['email'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -20,4 +23,8 @@ class UserModel {
     data['email'] = this.email;
     return data;
   }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [uid, name, email];
 }
