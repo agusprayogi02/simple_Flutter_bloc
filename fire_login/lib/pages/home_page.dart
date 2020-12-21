@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:fire_login/components/text_box.dart';
 import 'package:fire_login/controllers/auth_controller.dart';
 import 'package:fire_login/controllers/todo_controller.dart';
+import 'package:fire_login/services/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -46,11 +47,9 @@ class HomePage extends GetWidget<AuthController> {
                 ),
               ),
               child: GetX<TodoController>(
-                //autoRemove: false,
-                //assignId: false,
                 init: TodoController(),
                 builder: (_) {
-                  return _.todo.value.id == null
+                  return _.listTodo.value.isEmpty
                       ? Center(child: CircularProgressIndicator())
                       : ListView.separated(
                           separatorBuilder: (context, index) => Divider(
@@ -58,7 +57,7 @@ class HomePage extends GetWidget<AuthController> {
                           ),
                           itemCount: 5,
                           itemBuilder: (context, index) {
-                            var val = _.todo.value;
+                            var val = _.listTodo.value[index];
                             return TextBox(
                               title: val.judul,
                               subTitle: val.isi,
@@ -70,6 +69,18 @@ class HomePage extends GetWidget<AuthController> {
                 },
               ),
             ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  FlatButton(
+                    color: Colors.redAccent,
+                    onPressed: () => Get.toNamed(Routes.ADDTODO),
+                    child: Text("Coba"),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),

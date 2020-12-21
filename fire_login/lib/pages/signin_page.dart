@@ -1,10 +1,13 @@
 import 'package:fire_login/components/text_input.dart';
 import 'package:fire_login/controllers/auth_controller.dart';
+import 'package:fire_login/models/todo_model.dart';
 import 'package:fire_login/services/app_pages.dart';
+import 'package:fire_login/services/database.dart';
 import 'package:fire_login/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
+import 'package:uuid/uuid.dart';
 
 // ignore: must_be_immutable
 class SigninPage extends GetWidget<AuthController> {
@@ -27,6 +30,13 @@ class SigninPage extends GetWidget<AuthController> {
               splashColor: Colors.blueGrey,
               onPressed: () {
                 controller.signIn(_emailController.text, _passController.text);
+                // TodoModel todo = TodoModel(
+                //   id: Uuid().v4(),
+                //   isi: _emailController.text,
+                //   judul: _passController.text,
+                //   kondisi: false,
+                // );
+                // Database().createTodoData(todo);
               },
               child: Text(
                 "Sign In",
@@ -90,30 +100,30 @@ class SigninPage extends GetWidget<AuthController> {
                     child: Text("Welcome To Fire Login", style: txtStyle),
                   ),
                   Container(
-                      decoration: kBoxDecoration,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-                      margin: EdgeInsets.all(30),
-                      child: SingleChildScrollView(
-                        physics: AlwaysScrollableScrollPhysics(),
-                        child: Column(
-                          children: <Widget>[
-                            TextInput(
-                              label: "Email",
-                              controller: _emailController,
-                              icon: Icons.email,
-                            ),
-                            TextInput(
-                              label: "Password",
-                              icon: Icons.lock,
-                              controller: _passController,
-                              isPass: true,
-                              iconRight: Icon(Icons.visibility),
-                            ),
-                            _btn(),
-                          ],
-                        ),
-                      )),
+                    decoration: kBoxDecoration,
+                    padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+                    margin: EdgeInsets.all(30),
+                    child: SingleChildScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      child: Column(
+                        children: <Widget>[
+                          TextInput(
+                            label: "Email",
+                            controller: _emailController,
+                            icon: Icons.email,
+                          ),
+                          TextInput(
+                            label: "Password",
+                            icon: Icons.lock,
+                            controller: _passController,
+                            isPass: true,
+                            iconRight: Icon(Icons.visibility),
+                          ),
+                          _btn(),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],

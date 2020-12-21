@@ -26,8 +26,18 @@ class TodoModel extends Equatable {
   List<TodoModel> listTodo(DataSnapshot list) {
     List<TodoModel> todoList;
     if (list.value != null) {
-      for (var i = 0; i < list.value.length; i++) {}
+      var data = list.value;
+      for (var i in data) {
+        TodoModel todo = TodoModel(
+          id: data[list.key],
+          judul: data[list.key]['judul'],
+          isi: data[list.key]['isi'],
+          kondisi: data[list.key]['kondisi'],
+        );
+        todoList.add(todo);
+      }
     }
+    return todoList;
   }
 
   Map<String, dynamic> toJson() {
