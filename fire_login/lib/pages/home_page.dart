@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:fire_login/components/text_box.dart';
 import 'package:fire_login/controllers/auth_controller.dart';
+import 'package:fire_login/controllers/todo_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -44,15 +45,28 @@ class HomePage extends GetWidget<AuthController> {
                   color: Colors.red,
                 ),
               ),
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return TextBox(
-                    enable: false,
-                    onChanged: (val) {},
-                    subTitle: "Hai",
-                    title: "Gay",
-                  );
+              child: GetX<TodoController>(
+                //autoRemove: false,
+                //assignId: false,
+                init: TodoController(),
+                builder: (_) {
+                  return _.todo.value.id == null
+                      ? Center(child: CircularProgressIndicator())
+                      : ListView.separated(
+                          separatorBuilder: (context, index) => Divider(
+                            height: 1,
+                          ),
+                          itemCount: 5,
+                          itemBuilder: (context, index) {
+                            var val = _.todo.value;
+                            return TextBox(
+                              title: val.judul,
+                              subTitle: val.isi,
+                              enable: val.kondisi,
+                              onChanged: (value) {},
+                            );
+                          },
+                        );
                 },
               ),
             ),

@@ -23,6 +23,13 @@ class TodoModel extends Equatable {
     );
   }
 
+  List<TodoModel> listTodo(DataSnapshot list) {
+    List<TodoModel> todoList;
+    if (list.value != null) {
+      for (var i = 0; i < list.value.length; i++) {}
+    }
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
