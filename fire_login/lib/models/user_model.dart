@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class UserModel extends Equatable {
   final String uid;
@@ -8,11 +8,11 @@ class UserModel extends Equatable {
 
   UserModel({this.uid, this.name, this.email});
 
-  factory UserModel.documentSnapshot(DocumentSnapshot doc) {
+  factory UserModel.documentSnapshot(DataSnapshot doc) {
     return UserModel(
-      uid: doc.id,
-      name: doc['name'],
-      email: doc['email'],
+      uid: doc.key,
+      name: doc.value['name'],
+      email: doc.value['email'],
     );
   }
 
